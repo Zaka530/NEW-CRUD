@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import uz.kamron.springcourse.dao.PersonDAO;
 import uz.kamron.springcourse.models.Person;
 
+import java.sql.SQLException;
+
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
@@ -21,7 +23,7 @@ public class PeopleController {
     }
 
     @GetMapping()
-    public String index(Model model) {
+    public String index(Model model) throws SQLException {
         model.addAttribute("people", personDAO.index());
         return "people/index";
     }
@@ -39,11 +41,15 @@ public class PeopleController {
 
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person,
-                         BindingResult bindingResult) {
+                         BindingResult bindingResult) throws SQLException {
         if (bindingResult.hasErrors())
             return "people/new";
 
-        personDAO.save(person);
+        try {
+            personDAO.save(person);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return "redirect:/people";
     }
 
