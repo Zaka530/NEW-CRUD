@@ -45,11 +45,7 @@ public class PeopleController {
         if (bindingResult.hasErrors())
             return "people/new";
 
-        try {
-            personDAO.save(person);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        personDAO.save(person);
         return "redirect:/people";
     }
 
