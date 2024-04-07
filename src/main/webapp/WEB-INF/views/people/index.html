@@ -3,18 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-100">
 
-<div th:each="person : ${people}">
-    <a th:href="@{/people/{id}(id=${person.getId()})}"
-       th:text="${person.getName() + ', ' + person.getAge()}">user</a>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-4">People List</h1>
+
+    <div class="grid grid-cols-1 gap-4">
+        <div th:each="person : ${people}" class="bg-white p-4 rounded shadow">
+            <a th:href="@{/people/{id}(id=${person.getId()})}" class="block text-blue-500 hover:underline">
+                <span th:text="${person.getName() + ', ' + person.getAge()}">User</span>
+            </a>
+        </div>
+    </div>
+
+    <br/>
+    <hr class="my-8">
+
+    <a href="/people/new" class="text-blue-500 hover:underline">Create new person</a>
 </div>
-
-<br/>
-<hr/>
-
-<a href="/people/new">Create new person</a>
 
 </body>
 </html>

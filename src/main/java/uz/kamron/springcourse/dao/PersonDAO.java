@@ -3,14 +3,10 @@ package uz.kamron.springcourse.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.pattern.PathPattern;
 import uz.kamron.springcourse.models.Person;
 
-import java.util.stream.*;
-import java.sql.*;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Component
@@ -31,6 +27,7 @@ public class PersonDAO {
     }
 
     public Person show(int id) {
+
         return jdbcTemplate.query("SELECT * FROM Person WHERE id=?",
                         new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
                 .stream().findAny().orElse(null);
@@ -40,7 +37,7 @@ public class PersonDAO {
 
     public void save(Person person) {
 
-        jdbcTemplate.update("INSERT INTO person VALUES (1,?,?,?)",
+        jdbcTemplate.update("INSERT INTO person (name, age, email) VALUES (?,?,?)",
                 person.getName(), person.getAge(), person.getEmail())
         ;
     }
